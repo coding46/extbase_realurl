@@ -162,7 +162,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 	/**
 	 * Assert wether this any one of this set of annotations disables routing.
 	 *
-	 * @param Tx_Fed_Routing_RoutingAnnotation[] $annotations
+	 * @param Tx_ExtbaseRealurl_RoutingAnnotation[] $annotations
 	 * @return boolean
 	 */
 	protected function assertIsRoutable(array $annotations) {
@@ -177,7 +177,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 	/**
 	 * Assert the noMatch rule for this set of annotations. Last one has precedense.
 	 *
-	 * @param Tx_Fed_Routing_RoutingAnnotation[] $annotations
+	 * @param Tx_ExtbaseRealurl_RoutingAnnotation[] $annotations
 	 * @param string|NULL $argumentName
 	 * @return string|NULL
 	 */
@@ -193,7 +193,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 
 	/**
 	 * @param string $docComment
-	 * @return Tx_Fed_Routing_RoutingAnnotation[]
+	 * @return ExtbaseRealurl_Routing_RoutingAnnotation[]
 	 */
 	protected function getRoutingAnnotations($docComment) {
 		$pattern = '/@route[\s]+(.[^\n]+)[\n]{1,1}/';
@@ -203,7 +203,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 		array_shift($matches);
 		$annotationLines = array_shift($matches);
 		foreach ($annotationLines as $matchedPattern) {
-			/** @var $annotation Tx_Fed_Routing_RoutingAnnotation */
+			/** @var $annotation Tx_ExtbaseRealurl_RoutingAnnotation */
 			$annotation = $this->objectManager->create('Tx_ExtbaseRealurl_RoutingAnnotation');
 			$annotation->setMatchedPattern($matchedPattern);
 			array_push($annotations, $annotation);
@@ -261,7 +261,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 
 	/**
 	 * @param string $urlPrefix
-	 * @param Tx_Fed_Routing_RoutingAnnotation[] $annotations
+	 * @param Tx_ExtbaseRealurl_RoutingAnnotation[] $annotations
 	 * @return array
 	 */
 	protected function buildFixedPostVarsForController($urlPrefix, $annotations) {
@@ -277,7 +277,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 
 	/**
 	 * @param string $urlPrefix
-	 * @param Tx_Fed_Routing_RoutingAnnotation[] $annotations
+	 * @param Tx_ExtbaseRealurl_RoutingAnnotation[] $annotations
 	 * @return array
 	 */
 	protected function buildFixedPostVarsForControllerAction($urlPrefix, $annotations) {
@@ -311,9 +311,9 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 		$argumentDataType = trim($matches[1]);
 		$tableName = strtolower($argumentDataType);
 		switch ($argumentDataType) {
-			case '': $conversionMethod = Tx_Fed_Routing_SegmentValueProcessor::CONVERT_NULL; break;
-			case 'DateTime': $conversionMethod = Tx_Fed_Routing_SegmentValueProcessor::CONVERT_DATETIME; break;
-			default: $conversionMethod = Tx_Fed_Routing_SegmentValueProcessor::CONVERT_MODEL; break;
+			case '': $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_NULL; break;
+			case 'DateTime': $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_DATETIME; break;
+			default: $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_MODEL; break;
 		}
 		if (isset(self::$tableSetupCache[$tableName]) === TRUE) {
 			$TCA = self::$tableSetupCache[$tableName];
