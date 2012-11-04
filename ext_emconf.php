@@ -25,7 +25,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'typo3' => '4.5-0.0.0',
 			'cms' => '',
 			'extbase' => '',
-			'realurl' => '1.12.4-0.0.0'
+			'realurl' => '1.12.3-0.0.0'
 		),
 		'conflicts' => array(
 		),
