@@ -31,12 +31,47 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 		$value = $params['value'];
 		$parameters = $params['setup']['parameters'];
 		$direction = isset($params['origValue']) ? 'decode' : 'encode';
+		$redirection = isset($parameters['redirect']) ? $parameters['redirect'] : NULL;
 		$conversionMethodName = $direction . $parameters['conversionMethod'];
 		if (method_exists($this, $conversionMethodName) === FALSE) {
 			throw new Tx_ExtbaseRealurl_RoutingException('Invalid conversion method: ' . $parameters['conversionMethod']);
 		}
 		$translatedValue = call_user_func_array(array($this, $conversionMethodName), array($value, $parameters));
+		if ($redirection !== NULL) {
+			if ($redirection['method'] === 'NoMatch' && $translatedValue === NULL) {
+					// redirection on NoMatch applies, perform redirection
+				/** @var $uriBuilder Tx_Extbase_MVC_Web_Routing_UriBuilder */
+				$prefix = $redirection['prefix'];
+				$uriSegments = array();
+				foreach (array('controller', 'action', 'pluginName', 'extensionName') as $parameter) {
+					if (isset($redirection[$parameter]) === TRUE && $redirection[$parameter] !== NULL) {
+						if ($prefix) {
+							$uriSegment = $prefix . '[' . $parameter . ']=' . urlencode($redirection[$parameter]);
+						} else {
+							$uriSegment = $parameter . '=' . urlencode($redirection[$parameter]);
+						}
+						array_push($uriSegments, $uriSegment);
+					}
+				}
+				$queryString = '?' . implode('&', $uriSegments);
+				$uri = $queryString;
+				$this->performRedirect($uri, $redirection['status']);
+			}
+		}
 		return $translatedValue;
+	}
+
+	/**
+	 * @param string $url
+	 * @param integer $status
+	 * @return void
+	 */
+	protected function performRedirect($url, $status = NULL) {
+		if ($status) {
+			header('HTTP/1.1 ' . $status);
+		}
+		header('Location: ' . $url);
+		exit();
 	}
 
 	/**

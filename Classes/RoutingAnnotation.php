@@ -12,6 +12,11 @@ class Tx_ExtbaseRealurl_RoutingAnnotation {
 	private $noMatchRulePattern = '/NoMatch\((\'bypass\'|\'null\'|NULL)\)/';
 
 	/**
+	 * @var string
+	 */
+	private $redirectRulePattern = '/Redirect\(/';
+
+	/**
 	 * @var array
 	 */
 	private $disabledIdentifiers = array('off', 'Off', '0', 'FALSE', 'false', 'no', 'No');
@@ -69,6 +74,19 @@ class Tx_ExtbaseRealurl_RoutingAnnotation {
 			return $value;
 		}
 		return 'bypass';
+	}
+
+	/**
+	 * Get: rule determining if, and when, to perform redirection.
+	 *
+	 * @return string|NULL
+	 */
+	public function getRedirectRule() {
+		$rule = NULL;
+		if (preg_match($this->redirectRulePattern, $this->matchedPattern)) {
+			$rule = new Tx_ExtbaseRealurl_Rule_RedirectRule($this->matchedPattern);
+		}
+		return $rule;
 	}
 
 }

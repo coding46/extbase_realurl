@@ -178,8 +178,29 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 	protected function assertNoMatchRule(array $annotations, $argumentName = NULL) {
 		$rule = NULL;
 		foreach ($annotations as $annotation) {
-			if ($annotation->getNoMatchRule() !== NULL && $annotation->assertAppliesToVariable($argumentName)) {
-				$rule = $annotation->getNoMatchRule();
+			$noMatchRule = $annotation->getNoMatchRule();
+			$appliesToArgument = $annotation->assertAppliesToVariable($argumentName);
+			if ($noMatchRule !== NULL && $appliesToArgument) {
+				$rule = $noMatchRule;
+			}
+		}
+		return $rule;
+	}
+
+	/**
+	 * Assert the redirect rule for this set of annotations. Last one has precedense.
+	 *
+	 * @param Tx_ExtbaseRealurl_RoutingAnnotation[] $annotations
+	 * @param string|NULL $argumentName
+	 * @return Tx_ExtbaseRealurl_Rule_RedirectRule|NULL
+	 */
+	protected function assertRedirectRule(array $annotations, $argumentName = NULL) {
+		$rule = NULL;
+		foreach ($annotations as $annotation) {
+			$currentRule = $annotation->getRedirectRule();
+			$appliesToArgument = $annotation->assertAppliesToVariable($argumentName);
+			if ($currentRule instanceof Tx_ExtbaseRealurl_Rule_RedirectRule && $appliesToArgument) {
+				$rule = $currentRule;
 			}
 		}
 		return $rule;
@@ -298,6 +319,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 			'GETvar' => $urlPrefix . '[' . $argumentName . ']',
 		);
 		$noMatchRule = $this->assertNoMatchRule($annotations, $argumentName);
+		$redirectRule = $this->assertRedirectRule($annotations, $argumentName);
 
 		$docComment = $argument->getDeclaringFunction()->getDocComment();
 		$matches = array();
@@ -328,6 +350,10 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 		if ($noMatchRule !== NULL) {
 			$definition['parameters']['noMatch'] = $noMatchRule;
 		}
+		if ($redirectRule instanceof Tx_ExtbaseRealurl_Rule_RedirectRule) {
+			$definition['parameters']['redirect'] = $redirectRule->getArrayCopy();
+		}
+
 		if ($argument->isDefaultValueAvailable()) {
 			$definition['optional'] = $definition['parameters']['optional'] = TRUE;
 		}
