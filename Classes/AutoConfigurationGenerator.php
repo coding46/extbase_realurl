@@ -325,27 +325,34 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 		$matches = array();
 		preg_match('/@param[\s]+([a-zA-Z_0-9\\^\s]+)[\s]+\$' . $argumentName . '/', $docComment, $matches);
 		$argumentDataType = trim($matches[1]);
-		$tableName = strtolower($argumentDataType);
+		$tableName = $labelField = NULL;
 		switch ($argumentDataType) {
 			case '': $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_NULL; break;
 			case 'DateTime': $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_DATETIME; break;
-			default: $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_MODEL; break;
-		}
-		if (isset(self::$tableSetupCache[$tableName]) === TRUE) {
-			$TCA = self::$tableSetupCache[$tableName];
-		} else {
-			$_EXTKEY = t3lib_div::camelCaseToLowerCaseUnderscored($this->currentExtensionName);
-			$extensionConfigurationFile = t3lib_extMgm::extPath($_EXTKEY, 'ext_tables.php');
-			if (file_exists($extensionConfigurationFile)) {
-				eval('?>' . file_get_contents($extensionConfigurationFile));
-			}
+			case 'float':
+			case 'integer':
+			case 'string': $conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_PASSTHROUGH; break;
+			default:
+				$conversionMethod = Tx_ExtbaseRealurl_SegmentValueProcessor::CONVERT_MODEL;
+				$tableName = strtolower($argumentDataType);
+				if (isset(self::$tableSetupCache[$tableName]) === TRUE) {
+					$TCA = self::$tableSetupCache[$tableName];
+				} else {
+					$_EXTKEY = t3lib_div::camelCaseToLowerCaseUnderscored($this->currentExtensionName);
+					$extensionConfigurationFile = t3lib_extMgm::extPath($_EXTKEY, 'ext_tables.php');
+					if (file_exists($extensionConfigurationFile)) {
+						eval('?>' . file_get_contents($extensionConfigurationFile));
+						$labelField = $TCA[$tableName]['ctrl']['label'];
+					}
+				}
+				break;
 		}
 		$definition['userFunc'] = 'Tx_ExtbaseRealurl_SegmentValueProcessor->translateSegmentValue';
 		$definition['parameters'] = array(
 			'conversionMethod' => $conversionMethod,
 			'className' => $argumentDataType,
 			'tableName' => $tableName,
-			'labelField' => $TCA[$tableName]['ctrl']['label']
+			'labelField' => $labelField
 		);
 		if ($noMatchRule !== NULL) {
 			$definition['parameters']['noMatch'] = $noMatchRule;

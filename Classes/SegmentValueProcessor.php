@@ -4,6 +4,7 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	const CONVERT_MODEL = 'Model';
 	const CONVERT_DATETIME = 'DateTime';
 	const CONVERT_NULL = 'Nullify';
+	const CONVERT_PASSTHROUGH = 'Passthrough';
 
 	const ENCODE_STRING_STANDARD = 'StandardStringPart';
 
@@ -28,6 +29,7 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @throws ExtbaseRealurl
 	 */
 	public function translateSegmentValue(&$params, tx_realurl &$reference) {
+		syslog(LOG_ERR, var_export($params['setup']['parameters'], TRUE));
 		$value = $params['value'];
 		$parameters = $params['setup']['parameters'];
 		$direction = isset($params['origValue']) ? 'decode' : 'encode';
@@ -138,9 +140,12 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @param mixed $identity
 	 * @param array $parameters
 	 * @return mixed
-	 * @throws ExtbaseRealurl
+	 * @throws Tx_ExtbaseRealurl_RoutingException
 	 */
 	protected function decodeModel($identity, $parameters) {
+		if (ctype_digit($identity) && $identity < 1) {
+			return NULL;
+		}
 		$tableName = $parameters['tableName'];
 		$labelField = $parameters['labelField'];
 		if (ctype_digit($identity)) {
@@ -152,6 +157,24 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 				. $identity . '" and the settings which were insufficient to load an object were: ' . var_export($parameters, TRUE), 1351629172);
 		}
 		return $decodedValue;
+	}
+
+	/**
+	 * @param mixed $subject
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	protected function encodePassthrough($subject, $parameters) {
+		return (string) $subject;
+	}
+
+	/**
+	 * @param mixed $subject
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	protected function decodePassthrough($subject, $parameters) {
+		return (string) $subject;
 	}
 
 	/**
