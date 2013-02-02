@@ -33,7 +33,8 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 		$parameters = $params['setup']['parameters'];
 		$direction = isset($params['origValue']) ? 'decode' : 'encode';
 		$redirection = isset($parameters['redirect']) ? $parameters['redirect'] : NULL;
-		$conversionMethodName = $direction . $parameters['conversionMethod'];
+		$method = isset($parameters['conversionMethod']) ? $parameters['conversionMethod'] : 'Passthrough';
+		$conversionMethodName = $direction . $method;
 		if (method_exists($this, $conversionMethodName) === FALSE) {
 			throw new Tx_ExtbaseRealurl_RoutingException('Invalid conversion method: ' . $parameters['conversionMethod']);
 		}
