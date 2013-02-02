@@ -29,7 +29,6 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @throws ExtbaseRealurl
 	 */
 	public function translateSegmentValue(&$params, tx_realurl &$reference) {
-		syslog(LOG_ERR, var_export($params['setup']['parameters'], TRUE));
 		$value = $params['value'];
 		$parameters = $params['setup']['parameters'];
 		$direction = isset($params['origValue']) ? 'decode' : 'encode';
