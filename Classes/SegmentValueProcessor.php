@@ -82,12 +82,16 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @return string
 	 */
 	protected function encodeStandardStringPart($string, $parameters) {
-		$stringConvertPattern = isset($parameters['stringConvertPattern']) ? $parameters['stringConvertPattern'] : '/([^a-z0-9\-]{1,})+/i';
-		$stringConvertReplacement = isset($parameters['stringConvertReplacement']) ? $parameters['stringConvertReplacement'] : '-';
-		$string = preg_replace($stringConvertPattern, $stringConvertReplacement, $string);
-		$string = strtolower($string);
-		$string = trim($string, '-');
-		return $string;
+		$realurl = new tx_realurl_advanced();
+		$converted = $realurl->encodeTitle($string);
+		if (TRUE === empty($prospect)) {
+			$stringConvertPattern = (isset($parameters['stringConvertPattern']) ? $parameters['stringConvertPattern'] : '/([^a-z0-9\-]{1,})+/i');
+			$stringConvertReplacement = isset($parameters['stringConvertReplacement']) ? $parameters['stringConvertReplacement'] : '-';
+			$string = preg_replace($stringConvertPattern, $stringConvertReplacement, $string);
+			$string = strtolower($string);
+			$converted = trim($string, '-');
+		}
+		return $converted;
 	}
 
 	/**
