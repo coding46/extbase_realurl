@@ -178,6 +178,24 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	}
 
 	/**
+	 * @param mixed $subject
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	protected function encodeNullify($subject, $parameters) {
+		return NULL;
+	}
+
+	/**
+	 * @param mixed $subject
+	 * @param array $parameters
+	 * @return mixed
+	 */
+	protected function decodeNullify($subject, $parameters) {
+		return NULL;
+	}
+
+	/**
 	 * @param string $tableName
 	 * @param string $labelField
 	 * @param integer $uid
