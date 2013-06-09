@@ -237,7 +237,7 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 	 * @param string $pluginName
 	 * @param string $controllerName
 	 * @param string $actionName
-	 * @param array $registeredPluginSignatures
+	 * @param array $registeredExtbasePluginSignatures
 	 * @return array
 	 */
 	protected function getAllPAgeUidsWithPluginSignatureInColPosZeroTop($extensionName, $pluginName, $controllerName, $actionName, $registeredExtbasePluginSignatures) {
