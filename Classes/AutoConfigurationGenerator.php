@@ -52,6 +52,9 @@ class Tx_ExtbaseRealurl_AutoConfigurationGenerator {
 						break;
 					}
 					$controllerClassName = 'Tx_' . $extensionName . '_Controller_' . $controllerName . 'Controller';
+					if (FALSE === class_exists($controllerClassName)) {
+						continue;
+					}
 					$controllerClassReflection = new ReflectionClass($controllerClassName);
 					$controllerClassAnnotations = $this->getRoutingAnnotations($controllerClassReflection->getDocComment());
 					if ($this->assertIsRoutable($controllerClassAnnotations) === FALSE && $routable === FALSE) {
