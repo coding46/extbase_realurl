@@ -26,7 +26,7 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @param $params
 	 * @param tx_realurl $reference
 	 * @return mixed
-	 * @throws ExtbaseRealurl
+	 * @throws Tx_ExtbaseRealurl_RoutingException
 	 */
 	public function translateSegmentValue(&$params, tx_realurl &$reference) {
 		$value = $params['value'];
@@ -94,7 +94,7 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	 * @param integer $uid
 	 * @param array $parameters
 	 * @return mixed
-	 * @throws ExtbaseRealurl
+	 * @throws Tx_ExtbaseRealurl_RoutingException
 	 */
 	protected function encodeModel($uid, $parameters) {
 		$uid = intval($uid);
