@@ -84,7 +84,7 @@ class Tx_ExtbaseRealurl_SegmentValueProcessor {
 	protected function encodeStandardStringPart($string, $parameters) {
 		$realurl = new tx_realurl_advanced();
 		$converted = $realurl->encodeTitle($string);
-		if (TRUE === empty($prospect)) {
+		if (TRUE === empty($converted)) {
 			$stringConvertPattern = (isset($parameters['stringConvertPattern']) ? $parameters['stringConvertPattern'] : '/([^a-z0-9\-]{1,})+/i');
 			$stringConvertReplacement = isset($parameters['stringConvertReplacement']) ? $parameters['stringConvertReplacement'] : '-';
 			$string = preg_replace($stringConvertPattern, $stringConvertReplacement, $string);
