@@ -3,6 +3,8 @@ TYPO3 extension Extbase Realurl
 
 	Automatic Realurl configuration for Extbase Plugins
 
+[![Build Status](https://travis-ci.org/FluidTYPO3/extbase_realurl.png?branch=master)](https://travis-ci.org/FluidTYPO3/extbase_realurl)
+
 # What does it do?
 
 *Extbase Realurl* (from here on: *ER*) works in a deceptively simple way:
