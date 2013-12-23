@@ -39,6 +39,75 @@ and ClassReflections of the Controllers).
 when programming your own Extbase plugins - in a way that has zero impact
 when *ER* is not installed; due to the use of doc comment annotations.
 
+# What does it also do?
+
+As if automatic rules for every plugin was not enough, *ER* also adds a way
+to call any controller action from any plugin from any extension in the site.
+The only requirement: _it only works for packages which use namespaces and
+have vendor names_. This is necessary for consistency. The actions return
+exactly the content returned by the controller, nothing else. And it supports
+formats which makes it ideal for AJAX use or for services.
+
+The URL syntax to call a specific action is:
+
+```php
+$base/$vendor/$extensionName/$pluginName/$optionalController/$optionalAction(.$optionalFormat)
+```
+
+Any parameter marked optional is just that: optional. Leaving it out simply
+calls the default controller and action combination for that plugin; and if
+none are set, the fallback `StandardController` and `indexAction` are used.
+
+And to specify arguments:
+
+```php
+.../$action/$argumentOneName/$argumentOneValue/$argumentTwoName/$argumentTwoValue(.$optionalFormat)
+// or the old-fashioned (way which also supports arrays in the usual `argument[subProperty]` syntax
+.../$action.$format?$argumentOneName=$argumentOneValue&$argumentTwoName=$argumentTwoValue
+```
+
+Which makes the arguments:
+
+```php
+array(
+	$argumentOneName => $argumentOneValue,
+	$argumentTwoName => $argumentTwoValue,
+	...
+)
+```
+
+Some examples,
+which hopefully should explain everything just by reading:
+
+```
+# EXT:fromage receipt in HTML format (template filename: receipt.html):
+GET http://mydomain/FluidTYPO3/Fromage/Form/receipt.html
+
+# EXT:fromage receipt in TXT format (template filename: receipt.txt):
+GET http://mydomain/FluidTYPO3/Fromage/Form/receipt.txt
+
+# EXT:mycoolext date-limited entry list in JSON format (template filename: list.json):
+GET http://mydomain/MyVendorName/Mycoolext/Entries/Entry/list/from/2011/to/2013.json
+
+# EXT:myauth user status in JSON format (returned directly by controller):
+GET http://mydomain/MyVendorName/Myauth/User/status.json
+
+# EXT:sendstuff upload action, handle input then respond in XML format (template: upload.xml)
+POST http://mydomain/MyVendorName/Sendstuff/Upload/upload.xml
+
+# EXT:ajaxsavestuff save action, handle input then respond in JSON format, some arguments as GET:
+POST http://mydomain/MyVendorName/Ajaxsavestuff/Stuff/save/name/MrAndersson/location/TheMatrix.json
+
+# EXT:showoff svg action, renders account history as SVG with graph:
+GET http://mydomain/MyVendorName/Showoff/Account/history.svg
+```
+
+In short: you can call anything as long as it has a vendor name and is defined
+as a plugin (note: it does not need to be _registered_, it only needs to be
+_configured_ - and plugins which are _configured_ but not _registered_, are
+live but cannot be inserted on pages as content. Great way to make plugins
+which only deliver AJAX content and which should never be used in pages).
+
 # Installing
 
 Download and install as a TYPO3 extension, then enable "Automatic
