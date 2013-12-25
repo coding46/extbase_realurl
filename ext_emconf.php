@@ -11,14 +11,14 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Extbase Realurl: Automatic Realurl configuration for Extbase plugins',
-	'description' => 'Creates automatic Realurl rules for all plugins used on the TYPO3 site. Enables extension developers to use class and method annotations to modify the rules that are generated. Supports all versions of Extbase.',
+	'title' => 'Extbase URL handling',
+	'description' => 'Makes it possible to call Extbase controllers directly using nice urls - if Realurl is installed, also enables automatic rules for plugins in pages',
 	'category' => 'misc',
 	'author' => 'Claus Due',
-	'author_email' => 'claus@wildside.dk',
-	'author_company' => 'Wildside A/S',
+	'author_email' => 'claus@namelesscoder.net',
+	'author_company' => '',
 	'shy' => '',
-	'dependencies' => 'cms,extbase,realurl',
+	'dependencies' => 'cms,extbase',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -32,14 +32,14 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '0.9.2',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.5-0.0.0',
+			'typo3' => '6.0.0-6.2.99',
 			'cms' => '',
 			'extbase' => '',
-			'realurl' => '1.12.3-0.0.0',
 		),
 		'conflicts' => array(
 		),
 		'suggests' => array(
+			'realurl' => '1.12.3-0.0.0',
 		),
 	),
 	'suggests' => array(

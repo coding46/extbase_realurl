@@ -1,0 +1,5 @@
+{
+    "name": "fluidtypo3/extbase_realurl",
+    "description": "The extbase_realurl package from FluidTYPO3",
+    "type": "typo3-cms-extension"
+}
