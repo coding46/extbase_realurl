@@ -1,4 +1,6 @@
 <?php
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 class Tx_ExtbaseRealurl_Routing_PackageRouter {
 
 	/**
@@ -28,17 +30,19 @@ class Tx_ExtbaseRealurl_Routing_PackageRouter {
 	 * request path segments, mapping them to an Extbase Request and
 	 * attempting to dispatch that request.
 	 *
+	 * @param TypoScriptFrontendController $reference
 	 * @param array $parameters
 	 * @return void
 	 */
-	public function attemptRouting(array $parameters) {
+	public function attemptRouting(array $parameters, TypoScriptFrontendController $reference) {
+		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($parameters);
 		$segments = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 		if (3 > count($segments)) {
 			// segment count does not satisfy minimum of vendor + extension + plugin
 			return;
 		}
 		$this->outputIfTempFileExists();
-		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $controller */
+		/** @var TypoScriptFrontendController $controller */
 		$controller = reset($parameters);
 		list ($vendor, $extensionKey, $plugin, $controllerName, $action, $format, $preventCache) = $this->resolveRequestParameters($segments);
 		if (FALSE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey)) {
