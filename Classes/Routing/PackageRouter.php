@@ -35,7 +35,6 @@ class Tx_ExtbaseRealurl_Routing_PackageRouter {
 	 * @return void
 	 */
 	public function attemptRouting(array $parameters, TypoScriptFrontendController $reference) {
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($parameters);
 		$segments = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 		if (3 > count($segments)) {
 			// segment count does not satisfy minimum of vendor + extension + plugin
@@ -45,6 +44,10 @@ class Tx_ExtbaseRealurl_Routing_PackageRouter {
 		/** @var TypoScriptFrontendController $controller */
 		$controller = reset($parameters);
 		list ($vendor, $extensionKey, $plugin, $controllerName, $action, $format, $preventCache) = $this->resolveRequestParameters($segments);
+		if ($vendor{0} === strtolower($vendor{0})) {
+			// vendor name is not UpperCamelCase; abort.
+			return;
+		}
 		if (FALSE === \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKey)) {
 			// desired extension not loaded; let pass (likely giving a 404 result; depends on site configuration)
 			$controller->pageNotFoundAndExit('Package "' . $extensionKey . '" is not loaded');
