@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "extbase_realurl".
  *
- * Auto generated 29-12-2013 12:59
+ * Auto generated 18-04-2014 23:31
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -29,7 +29,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'modify_tables' => '',
 	'clearCacheOnLoad' => 0,
 	'lockType' => '',
-	'version' => '0.9.3',
+	'version' => '0.9.4',
 	'constraints' => array(
 		'depends' => array(
 			'typo3' => '6.0.0-6.2.99',
@@ -44,7 +44,7 @@ $EM_CONF[$_EXTKEY] = array(
 	),
 	'suggests' => array(
 	),
-	'_md5_values_when_last_written' => 'a:15:{s:13:"composer.json";s:4:"2706";s:12:"ext_icon.gif";s:4:"68b4";s:17:"ext_localconf.php";s:4:"a9af";s:9:"README.md";s:4:"77c5";s:22:"Build/ImportSchema.sql";s:4:"4c12";s:28:"Build/LocalConfiguration.php";s:4:"c834";s:23:"Build/PackageStates.php";s:4:"7e79";s:38:"Classes/AutoConfigurationGenerator.php";s:4:"0e06";s:39:"Classes/RoutableControllerInterface.php";s:4:"ed1c";s:29:"Classes/RoutingAnnotation.php";s:4:"b4c5";s:28:"Classes/RoutingException.php";s:4:"7ca3";s:33:"Classes/SegmentValueProcessor.php";s:4:"2263";s:33:"Classes/Routing/PackageRouter.php";s:4:"a66d";s:29:"Classes/Rule/AbstractRule.php";s:4:"c163";s:29:"Classes/Rule/RedirectRule.php";s:4:"eccf";}',
+	'_md5_values_when_last_written' => 'a:16:{s:13:"composer.json";s:4:"2706";s:12:"ext_icon.gif";s:4:"68b4";s:17:"ext_localconf.php";s:4:"a9af";s:10:"LICENSE.md";s:4:"c813";s:9:"README.md";s:4:"77c5";s:22:"Build/ImportSchema.sql";s:4:"9838";s:28:"Build/LocalConfiguration.php";s:4:"c834";s:23:"Build/PackageStates.php";s:4:"7e79";s:38:"Classes/AutoConfigurationGenerator.php";s:4:"0e06";s:39:"Classes/RoutableControllerInterface.php";s:4:"c110";s:29:"Classes/RoutingAnnotation.php";s:4:"b4c5";s:28:"Classes/RoutingException.php";s:4:"7ca3";s:33:"Classes/SegmentValueProcessor.php";s:4:"2263";s:33:"Classes/Routing/PackageRouter.php";s:4:"7840";s:29:"Classes/Rule/AbstractRule.php";s:4:"c163";s:29:"Classes/Rule/RedirectRule.php";s:4:"eccf";}',
 );
 
 ?>
